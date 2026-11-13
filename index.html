@@ -3,39 +3,137 @@
 <head>
   <meta charset="utf-8">
   <title>F1</title>
-</head>
-<body>
 
-  <h1>Sir Lewis Hamilton</h1>
-<style>
-  body {
-            background-color: rgb(230, 215, 10);
-            font-family: Arial;
-            font-size: 18px;
-        }
+  <style>
+    body {
+      background-color: rgb(230, 215, 10);
+      font-family: Arial;
+      font-size: 18px;
+    }
+
     h1 {
       color: red;
     }
-  .box {
-            border: 2px solid black;
-            padding: 20px;
-            width: 300px;
-            margin: 30px auto;
-            background-color: rgb(255, 255, 255);
-        }
-  
+
+    .box {
+      border: 2px solid black;
+      padding: 20px;
+      width: 300px;
+      margin: 30px auto;
+      background-color: white;
+    }
+
+    #tlacidlo {
+      background-color: #171717;
+      color: white;
+      padding: 12px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #veta {
+      font-weight: bold;
+      color: red;
+    }
+
+    #reakcia {
+      background-color: #171717;
+      color: white;
+      padding: 15px;
+      font-size: 18px;
+      cursor: pointer;
+      border: none;
+    }
+
+    #vysledok {
+      font-weight: bold;
+      color: red;
+    }
   </style>
-  <p>Moja stranka je o jazdcovy F1.</p>
+</head>
 
-  <p>Lewisa sledujem hlavne kvôli jeho osobnosti a jeho štýlu pretekania</p>
+<body>
 
-  <h2>O ňom </h2>
+  <h1>Sir Lewis Hamilton</h1>
+
+  <p>Moja stranka je o jazdcovi F1.</p>
+
+  <p>Lewisa sledujem hlavne kvôli jeho osobnosti a jeho štýlu pretekania.</p>
+
+  <h2>O ňom</h2>
 
   <ul>
     <li>7x WDC</li>
-    <li>Z nuly až na vrchol </li>
+    <li>Z nuly až na vrchol</li>
     <li>Je prvý vegán, ktorý vyhral WDC</li>
   </ul>
 
-  <p>Viac je na <a href="https://sk.wikipedia.org/wiki/Lewis_Hamilton">Wikipédii</a>.</p>
-<div class="box">
+  <p>Viac je na 
+    <a href="https://sk.wikipedia.org/wiki/Lewis_Hamilton">Wikipédii</a>.
+  </p>
+
+  <div class="box">
+    <img src="https://img2.51gt3.com/rac/racer/202503/0ff8ae7649b447bd8e023f4e31dc4042.png?x-oss-process=style/_nowm" alt="Lewis Hamilton" width="300">
+  </div>
+
+  <h2>Pit Stop 🏎️</h2>
+
+  <p id="veta">Stlač tlačidlo a sleduj, čo sa stane.</p>
+
+  <button id="tlacidlo" onclick="pitStop()">PIT STOP</button>
+
+  <h2>F1 reakčný čas 🏁</h2>
+
+  <p>Otestuj si svoje reflexy ako jazdec Formuly 1!</p>
+
+  <button id="reakcia" onclick="hra()">ŠTART</button>
+
+  <p id="vysledok">Klikni na ŠTART a priprav sa!</p>
+
+  <script>
+    function pitStop() {
+      document.getElementById("veta").innerHTML = "BOX BOX! 🏎️";
+    }
+
+    let casStartu;
+    let casovac;
+    let stav = "cakaj";
+
+    function hra() {
+      const tlacidlo = document.getElementById("reakcia");
+      const vysledok = document.getElementById("vysledok");
+
+      if (stav === "cakaj") {
+        stav = "priprava";
+        tlacidlo.innerHTML = "ČAKAJ NA ZELENÚ...";
+        tlacidlo.style.backgroundColor = "red";
+        vysledok.innerHTML = "Sústred sa a čakaj na signál!";
+
+        casovac = setTimeout(function() {
+          stav = "start";
+          tlacidlo.innerHTML = "KLIKNI TERAZ!";
+          tlacidlo.style.backgroundColor = "green";
+          casStartu = Date.now();
+        }, Math.random() * 3000 + 2000);
+
+      } else if (stav === "priprava") {
+        clearTimeout(casovac);
+        stav = "cakaj";
+        tlacidlo.innerHTML = "ŠTART";
+        tlacidlo.style.backgroundColor = "#171717";
+        vysledok.innerHTML = "Príliš skoro! Skús to znova. ❌";
+
+      } else if (stav === "start") {
+        let cas = Date.now() - casStartu;
+
+        stav = "cakaj";
+        tlacidlo.innerHTML = "ŠTART";
+        tlacidlo.style.backgroundColor = "#171717";
+
+        vysledok.innerHTML = "Tvoj reakčný čas: " + cas + " ms! 🏎️";
+      }
+    }
+  </script>
+
+</body>
+</html>
